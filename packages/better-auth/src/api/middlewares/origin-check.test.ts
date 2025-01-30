@@ -37,6 +37,22 @@ describe("Origin Check", async (it) => {
 		expect(res.error?.message).toBe("Invalid callbackURL");
 	});
 
+	it("should allow trusted origin with #", async (ctx) => {
+		const client = createAuthClient({
+			baseURL: "http://example.com",
+			fetchOptions: {
+				customFetchImpl,
+			},
+		});
+		const res = await client.signIn.email({
+			email: "test@test.com",
+			password: "password",
+			callbackURL: "http://example.com#test",
+		});
+		expect(res.error?.status).toBe(200);
+		
+	});
+
 	it("should allow trusted origins", async (ctx) => {
 		const client = createAuthClient({
 			baseURL: "http://localhost:3000",
