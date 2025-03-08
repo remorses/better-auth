@@ -39,17 +39,17 @@ describe("Origin Check", async (it) => {
 
 	it("should allow trusted origin with #", async (ctx) => {
 		const client = createAuthClient({
-			baseURL: "http://example.com",
+			baseURL: "https://example.com/",
 			fetchOptions: {
 				customFetchImpl,
 			},
 		});
 		const res = await client.signIn.email({
-			email: "test@test.com",
-			password: "password",
-			callbackURL: "http://example.com#test",
+			email: testUser.email,
+			password: testUser.password,
+			callbackURL: "https://example.com/c#test",
 		});
-		expect(res.error?.status).toBe(200);
+		expect(res.data?.user).toBeDefined();
 		
 	});
 
